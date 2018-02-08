@@ -1,0 +1,20 @@
+---
+- name: "Setup On Prem appsvcs service using parameters in JSON Doc"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars_files:
+    - vars.yml
+  tasks:
+  - name: deploy SD-iApp
+    bigip_iapp_service:
+      name: sdmdc_demo
+      template: f5.http
+      server: "{{ bigip_mgmt }}"
+      server_port: "{{ bigip_mgmt_port }}"
+      user: "{{ user }}"
+      password: "{{ password }}"
+      validate_certs: false
+      state: "{{ state }}"
+      parameters: "{{ lookup('file', './templates/appsvr.json') }}"
+    delegate_to: localhost

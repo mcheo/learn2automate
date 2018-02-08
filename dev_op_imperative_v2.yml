@@ -1,0 +1,117 @@
+---
+#To demonstrate imperatively way of setting up application services
+#To show how easy to make error mistake
+#A template to show irmpovement steps
+
+- name: "Setup Application Services imperatively"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars_files:
+    - vars.yml
+  tasks:
+#Intention error
+  - name: Setup Pool Member
+    bigip_pool:
+      server: "{{ bigip_mgmt }}"
+      server_port: "{{ bigip_mgmt_port }}"
+      user: "{{ user }}"
+      password: "{{ password }}"
+      validate_certs: false
+      name: sdmdc_demo_pool
+      lb_method: round-robin
+      monitors:
+          - /Common/http
+      monitor_type: and_list
+      partition: Common
+    delegate_to: localhost
+    when: state == "present"
+  
+  - name: Add pool member
+    bigip_pool_member:
+      server: "{{ bigip_mgmt }}"
+      server_port: "{{ bigip_mgmt_port }}"
+      user: "{{ user }}"
+      password: "{{ password }}"
+      validate_certs: false
+      pool: sdmdc_demo_pool
+      partition: Common
+      host: "10.128.20.128"
+      port: 80
+    delegate_to: localhost  
+    when: state == "present"
+
+  - name: Add virtual server
+    bigip_virtual_server:
+      server: "{{ bigip_mgmt }}"
+      server_port: "{{ bigip_mgmt_port }}"
+      user: "{{ user }}"
+      password: "{{ password }}"
+      validate_certs: false
+      partition: Common
+      name: sdmdc_vip
+      destination: 10.128.10.88
+      port: 80
+      pool: sdmdc_demo_pool
+      snat: Automap
+      description: Demo Virtual Server
+      all_profiles:
+        - http
+    delegate_to: localhost
+    when: state == "present"
+
+##Removing
+
+  - name: Remove virtual server
+    bigip_virtual_server:
+      server: "{{ bigip_mgmt }}"
+      server_port: "{{ bigip_mgmt_port }}"
+      user: "{{ user }}"
+      password: "{{ password }}"
+      validate_certs: false
+      partition: Common
+      name: sdmdc_vip
+      destination: 10.128.10.88
+      port: 80
+      pool: sdmdc_demo_pool
+      snat: Automap
+      description: Demo Virtual Server
+      all_profiles:
+        - http
+      state: absent
+    delegate_to: localhost
+    when: state == "absent"
+
+  - name: Remove pool member
+    bigip_pool_member:
+      server: "{{ bigip_mgmt }}"
+      server_port: "{{ bigip_mgmt_port }}"
+      user: "{{ user }}"
+      password: "{{ password }}"
+      validate_certs: false
+      pool: sdmdc_demo_pool
+      partition: Common
+      host: "10.128.20.128"
+      port: 80
+      state: absent
+    delegate_to: localhost    
+    when: state == "absent"
+
+  - name: Remove Pool Member
+    bigip_pool:
+      server: "{{ bigip_mgmt }}"
+      server_port: "{{ bigip_mgmt_port }}"
+      user: "{{ user }}"
+      password: "{{ password }}"
+      validate_certs: false
+      name: sdmdc_demo_pool
+      lb_method: round-robin
+      monitors:
+          - /Common/http
+      partition: Common
+      state: absent
+    delegate_to: localhost  
+    when: state == "absent"
+
+
+    
