@@ -7,7 +7,7 @@
   tasks:
   - name: Setup Pool Member
     bigip_pool:
-      server: 52.187.146.211 
+      server: "52.187.146.211" 
       server_port: 8443
       password: "veryDirtySecret!"
       user: "cheo"
@@ -23,7 +23,7 @@
   
   - name: Add pool member
     bigip_pool_member:
-      server: 52.187.146.211 
+      server: "52.187.146.211" 
       server_port: 8443
       password: "veryDirtySecret!"
       user: "cheo"
@@ -36,8 +36,8 @@
     when: state == "present"
 
   - name: Add virtual server
-    bigip_virtual_server: 52.187.146.211
-      server: 52.187.146.211 
+    bigip_virtual_server: "52.187.146.211"
+      server: "52.187.146.211" 
       server_port: 8443
       password: "veryDirtySecret!"
       user: "cheo"
@@ -58,8 +58,8 @@
 ##Removing
 
   - name: Remove virtual server
-    bigip_virtual_server: 52.187.146.211
-      server: 52.187.146.211 
+    bigip_virtual_server: "52.187.146.211"
+      server: "52.187.146.211" 
       server_port: 8443
       password: "veryDirtySecret!"
       user: "cheo"
@@ -79,7 +79,7 @@
 
   - name: Remove pool member
     bigip_pool_member:
-      server: 52.187.146.211 
+      server: "52.187.146.211" 
       server_port: 8443
       password: "veryDirtySecret!"
       user: "cheo"
@@ -94,7 +94,7 @@
 
   - name: Remove Pool Member
     bigip_pool:
-      server: 52.187.146.211 
+      server: "52.187.146.211" 
       server_port: 8443
       password: "veryDirtySecret!"
       user: "cheo"
