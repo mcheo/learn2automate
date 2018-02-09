@@ -1,7 +1,6 @@
 ---
 #To demonstrate imperatively way of setting up application services
-#To show how easy to make error mistake
-#A template to show irmpovement steps
+#To parameterize certain variables
 
 - name: "Setup Application Services imperatively"
   hosts: localhost
@@ -10,7 +9,6 @@
   vars_files:
     - vars.yml
   tasks:
-#Intention error
   - name: Setup Pool Member
     bigip_pool:
       server: "{{ bigip_mgmt }}"
@@ -112,6 +110,3 @@
       state: absent
     delegate_to: localhost  
     when: state == "absent"
-
-
-    
