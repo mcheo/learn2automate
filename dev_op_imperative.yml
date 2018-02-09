@@ -1,16 +1,21 @@
 ---
-#Creating Objects
-- name: "Setup On Prem Application Services imperatively"
+#To demonstrate imperatively way of setting up application services
+#To show how easy to make error mistake
+#A template to show irmpovement steps
+
+- name: "Setup Application Services imperatively"
   hosts: localhost
   gather_facts: false
   connection: local
   tasks:
+#Intention error
+
   - name: Setup Pool Member
     bigip_pool:
-      server: "52.187.146.211" 
+      server: "52.187.146.211"
       server_port: 8443
-      password: "veryDirtySecret!"
       user: "cheo"
+      password: "veryDirtySecret!"
       validate_certs: false
       name: sdmdc_demo_pool
       lb_method: round-robin
@@ -23,10 +28,10 @@
   
   - name: Add pool member
     bigip_pool_member:
-      server: "52.187.146.211" 
+      server: "52.187.146.211"
       server_port: 8443
-      password: "veryDirtySecret!"
       user: "cheo"
+      password: "veryDirtySecret!"
       validate_certs: false
       pool: sdmdc_demo_pool
       partition: Common
@@ -36,11 +41,11 @@
     when: state == "present"
 
   - name: Add virtual server
-    bigip_virtual_server: "52.187.146.211"
-      server: "52.187.146.211" 
+    bigip_virtual_server:
+      server: "52.187.146.211"
       server_port: 8443
-      password: "veryDirtySecret!"
       user: "cheo"
+      password: "veryDirtySecret!"
       validate_certs: false
       partition: Common
       name: sdmdc_vip
@@ -58,11 +63,11 @@
 ##Removing
 
   - name: Remove virtual server
-    bigip_virtual_server: "52.187.146.211"
-      server: "52.187.146.211" 
+    bigip_virtual_server:
+      server: "52.187.146.211"
       server_port: 8443
-      password: "veryDirtySecret!"
       user: "cheo"
+      password: "veryDirtySecret!"
       validate_certs: false
       partition: Common
       name: sdmdc_vip
@@ -79,10 +84,10 @@
 
   - name: Remove pool member
     bigip_pool_member:
-      server: "52.187.146.211" 
+      server: "52.187.146.211"
       server_port: 8443
-      password: "veryDirtySecret!"
       user: "cheo"
+      password: "veryDirtySecret!"
       validate_certs: false
       pool: sdmdc_demo_pool
       partition: Common
@@ -94,10 +99,10 @@
 
   - name: Remove Pool Member
     bigip_pool:
-      server: "52.187.146.211" 
+      server: "52.187.146.211"
       server_port: 8443
-      password: "veryDirtySecret!"
       user: "cheo"
+      password: "veryDirtySecret!"
       validate_certs: false
       name: sdmdc_demo_pool
       lb_method: round-robin
