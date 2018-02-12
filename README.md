@@ -11,16 +11,23 @@ This is a simple lab to show automation concepts by automating F5 using Ansible
     - it is easy to make Domain Specific Knowledge related mistake
     - tedious to change repetitive variables
   
-2. dev_op_imperative_v2.yml
+2a. dev_op_imperative_v2.yml
 
   prompt> ansible-playbook dev_op_imperative_v2.yml -e state=present -vvv
 
   In this exercise, we show
   
     - how to parameterize repetitive variables by using vars.yml
-    - how to use ansible-vault to store credetials
+    - bad practise to store credentials in plain text inside variable file
     
+ 
+ 2b. dev_op_imperative_v2.yml
+ 
   prompt> ansible-playbook dev_op_imperative_v2.yml --ask-vault-pass -e @password.yml -e state=present -vvv
+  
+  In this exercise, we show
+  
+    - how to use ansible-vault to store credentials
  
  3. dev_op_declarative.yml
  
